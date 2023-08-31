@@ -40,4 +40,8 @@ cursor: pointer;
 font-size: 22px`
 ;
 
+export const ErrorMsg = styled(ErrorMessage)`
+font-size: 16px;
+color: red;
+`;
 

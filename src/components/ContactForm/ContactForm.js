@@ -1,42 +1,44 @@
-import React, { Component } from 'react';
+import React  from 'react';
 import * as Yup from 'yup';
-import { Formik, Field, Form } from "formik";
+import { Formik } from "formik";
 import {
     StyledForm,
     Label,
     StyledField,
     StyledButton,
-    Title
+    Title,
+    ErrorMsg,
 } from './ContactForm.styled';
 
+const nameRegex = /[a-zA-Zа-яА-Я]+(([' ][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$/;
+
+const numberRegex = /\+?\d{1,4}?[ .\-\s]?\(?\d{1,3}?\)?[ .\-\s]?\d{1,4}[ .\-\s]?\d{1,4}[ .\-\s]?\d{1,9}/;
+
+
+    const formSchema = Yup.object().shape({
+        name: Yup.string()
+        .matches(nameRegex, {message: `Name may contain only letters, apostrophe, dash and spaces.`})
+        .required('Required'),
+        number: Yup.string()
+        .matches(numberRegex, {message:`Phone number must be digits and can contain spaces, dashes, parentheses and can start with +.`})
+        .required('Required'),
+    });
 
 
 
- const SignupSchema = Yup.object().shape({
-   name: Yup.string()
-    .min(2, 'Too Short!')
-    .max(10, 'Too Long!')
-    .required('Required'),
-   number: Yup.string()
-    .min(9, 'Too Short!')
-    .max(11, 'Too Long!')
-    .required('Required'),
- });
 
 
 
-
-
-
-export const ContactForm = () => {
+export const ContactForm = ({onAdd}) => {
     return (
         <div className="App">
         <Title>Phonebook</Title>
     <Formik
             initialValues={{ name: "", number: "" }}
-            validationSchema={SignupSchema}
-        onSubmit= {values => {
-            console.log(values);
+            validationSchema={formSchema}
+            onSubmit= {(values, actions) => {
+                onAdd(values);
+                actions.resetForm();
         }}
         >
             <StyledForm>
@@ -44,17 +46,17 @@ export const ContactForm = () => {
                     Name
             <StyledField type="text"
                 name="name"
-                pattern="^[a-zA-Zа-яА-Я]+(([' \-][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
                 title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
-                required />
+                            required />
+                <ErrorMsg name="name" component="div"/>
             </Label>
             <Label htmlFor='number'>
                         Number
             <StyledField type="tel"
                 name="number"
-                pattern="\+?\d{1,4}?[ .\-\s]?\(?\d{1,3}?\)?[ .\-\s]?\d{1,4}[ .\-\s]?\d{1,4}[ .\-\s]?\d{1,9}"
                 title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
-                required />
+                            required />
+                    <ErrorMsg name="number" component="div"/>
             </Label>
             <StyledButton type="submit">Add contact</StyledButton>
         </StyledForm>
