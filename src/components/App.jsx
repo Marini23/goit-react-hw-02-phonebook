@@ -3,6 +3,7 @@ import { nanoid } from 'nanoid';
 import { ContactForm } from './ContactForm/ContactForm';
 import { ContactList } from './ContactsList/ContactsList';
 import { Filter } from './Filter/Filter';
+import { GlobalStyle } from './GlibalStyle';
 
 
 export class App extends Component {
@@ -17,7 +18,15 @@ export class App extends Component {
   }
   
   addContact = newContact => { 
-    console.log(newContact);
+    if (
+      this.state.contacts.find(
+        contact => contact.name.toLowerCase() === newContact.name.toLowerCase() 
+      )
+    ) {
+      return alert(`${newContact.name} is already in contacts!`);
+    }
+
+
     this.setState(prevState => ({
       contacts: [{ id: nanoid(), ...newContact }, ...prevState.contacts]
     }))
@@ -59,7 +68,8 @@ export class App extends Component {
           filter={this.state.filter}
           onChangeFilter={this.filterContact} />
         <ContactList contacts={visibleContacts} onDelete ={this.deleteContact} />
-    </div>)
+      <GlobalStyle/>
+      </div>)
   }
 }
 

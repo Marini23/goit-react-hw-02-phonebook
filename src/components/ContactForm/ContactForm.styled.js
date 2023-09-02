@@ -33,7 +33,12 @@ display: flex;
 align-items: center;
 justify-content: center;
 cursor: pointer;
-font-size: 22px`
+font-size: 18px;
+&:hover,
+:focus {
+  background-color: #00BFFF;
+}
+`
 ;
 
 export const ErrorMsg = styled(ErrorMessage)`
