@@ -6,7 +6,6 @@ import {
     Label,
     StyledField,
     StyledButton,
-    Title,
     ErrorMsg,
 } from './ContactForm.styled';
 
@@ -32,7 +31,7 @@ const numberRegex = /\+?\d{1,4}?[ .\-\s]?\(?\d{1,3}?\)?[ .\-\s]?\d{1,4}[ .\-\s]?
 export const ContactForm = ({onAdd}) => {
     return (
         <div className="App">
-        <Title>Phonebook</Title>
+        
     <Formik
             initialValues={{ name: "", number: "" }}
             validationSchema={formSchema}
